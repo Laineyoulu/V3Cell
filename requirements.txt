@@ -1,0 +1,32 @@
+# V3Cell dependency list
+# Tested with Python 3.9, CUDA 12.1
+# Usage: pip install -r requirements.txt
+
+# ============ Core deep learning ============
+torch>=2.0.0                  # PyTorch core (tested: 2.5.1+cu121)
+torchvision>=0.15.0           # Vision transforms and models (tested: 0.20.1)
+
+# ============ Numerical / scientific ============
+numpy>=1.21.0                 # Numerical computing (tested: 2.0.2)
+scipy>=1.7.0                  # FID/KID metric computation (tested: 1.13.1)
+
+# ============ Image / video I/O ============
+Pillow>=9.0.0                 # Image loading and saving (tested: 11.3.0)
+imageio>=2.9.0                # Video saving (tested: 2.37.0)
+imageio-ffmpeg>=0.4.0         # FFmpeg backend for video export (tested: 0.6.0)
+opencv-python-headless>=4.5.0 # Frame preprocessing and mask ops (tested: 4.13.0)
+
+# ============ Config / CLI / utilities ============
+PyYAML>=6.0                   # YAML config parsing (tested: 6.0.2)
+tqdm>=4.60.0                  # Progress bars (tested: 4.67.1)
+click>=8.0.0                  # CLI for R3GAN train.py (tested: 8.1.8)
+psutil>=5.9.0                 # Process / memory monitoring (tested: 5.9.0)
+requests>=2.28.0              # HTTP utilities (tested: 2.32.5)
+packaging>=21.0               # Version parsing utilities (tested: 26.0)
+
+# ============ Build tools ============
+ninja                         # Fast C++/CUDA extension compilation (tested: 1.13.2)
+
+# ============ Visualisation / logging ============
+matplotlib>=3.5.0             # Plotting (tested: 3.9.4)
+tensorboard>=2.8.0            # Training curve visualisation (tested: 2.20.0)

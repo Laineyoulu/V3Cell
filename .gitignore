@@ -1,0 +1,23 @@
+__pycache__/
+*.pyc
+*.pyo
+*.so
+
+# Data / weights / outputs — not part of this code release
+datasets/
+checkpoints/
+training-runs/
+outputs/
+*.pkl
+*.pt
+*.zip
+
+# CUDA extension build cache
+*.o
+*.obj
+.cache/
+
+# Editor / OS
+.DS_Store
+.vscode/
+.idea/

@@ -1,0 +1,72 @@
+# V3Cell default configuration (MoCoGAN-HD specification)
+# Settings are aligned with the MoCoGAN-HD paper unless noted otherwise.
+
+# Model configuration
+model:
+  # R3GAN image generator (Stage 1 — frozen during Stage 2 training)
+  z_dim: 64                    # Noise/latent dimension (R3GAN NoiseDimension = 64)
+  c_dim: 3                     # Number of organoid classes: lumen, lumen_collapse, non_lumen
+  img_resolution: 256          # Spatial resolution of generated frames
+  img_channels: 3              # RGB
+
+  # MotionRNN (Stage 2 — trained from scratch)
+  motion_rnn:
+    hidden_dim: 384            # LSTM hidden state size (MoCoGAN-HD uses 384)
+    num_layers: 2              # Number of stacked LSTM layers
+    dropout: 0.1               # Dropout probability between LSTM layers
+    residual_weight: 0.2       # Scale factor for residual latent updates (Δz)
+
+  # Discriminators (MoCoGAN-HD specification)
+  discriminator:
+    # 2D frame-pair discriminator
+    image:
+      ndf: 64                  # Base feature map count
+      n_layers: 3              # PatchGAN depth
+      norm_type: instance      # Normalisation: instance | batch | none
+
+    # 3D multi-scale video discriminator
+    video:
+      ndf: 64                  # Base feature map count
+      n_layers: 3              # Conv layers per discriminator scale
+      norm_type: instance      # Normalisation type
+      num_D: 2                 # Number of discriminator scales (multi-scale)
+
+# Training configuration
+training:
+  # Batch and sequence settings
+  batch_size: 8                # One sample per GPU (for 8-GPU training)
+  n_frames: 16                 # Frames per video clip (MoCoGAN-HD: 16)
+  total_kimg: 2000             # Training budget in kilo-images
+  G_step: 5                    # Generator updates per discriminator update (MoCoGAN-HD: 5)
+
+  # Optimiser (Adam, MoCoGAN-HD style: β₁=0.5)
+  optimizer:
+    lr: 0.0002                 # Learning rate
+    beta1: 0.5                 # Adam β₁
+    beta2: 0.999               # Adam β₂
+
+  # Gradient penalty
+  lambda_gp: 10.0              # WGAN-GP gradient penalty coefficient
+
+  # Logging and checkpointing
+  log_interval: 100            # Print losses every N steps
+  save_interval: 10            # Save checkpoint every N kimg
+  sample_interval: 5           # Generate sample videos every N kimg
+  n_sample_videos: 4           # Number of sample videos per class
+
+# Data configuration
+data:
+  video_dir: null              # Root video directory (set via --data_dir argument)
+  frame_pattern: "*_t*.png"    # Glob pattern for frame files (matches lumen_1_t000.png etc.)
+  min_frames: 16               # Minimum frames required to include a video
+  max_frames: null             # No cap: use the full video length
+  random_start: false          # Start from frame 0 to learn the full developmental process
+  augmentation:
+    horizontal_flip: true      # Random horizontal flip
+    vertical_flip: false       # No vertical flip
+
+# Device configuration
+device:
+  gpu_ids: [0]                 # GPU ids (override with --gpu argument)
+  num_workers: 4               # DataLoader worker processes
+  pin_memory: true             # Pin CPU memory for faster GPU transfer
