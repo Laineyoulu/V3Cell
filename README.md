@@ -288,7 +288,19 @@ Given only a short prefix of early observed frames, V3Cell constructs the full t
 
 ## ⚖️ License
 
-License terms are **pending** — this release builds on the R3GAN / StyleGAN3 codebase, whose upstream license is under review before this section is finalized. Do not redistribute pending that review.
+The original work in this repository (V3Cell source code, models, figures, and
+documentation) is released under the
+**[Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0)](LICENSE)**
+— you may share and adapt it for **non-commercial** research purposes with appropriate
+credit. Commercial use is **not** permitted.
+
+This repository also incorporates third-party components (notably NVIDIA StyleGAN3 /
+R3GAN code under `dnnlib/`, `torch_utils/`, `r3gan/`, and
+`models/temporal_organoid_generator/networks.py`) that retain their own licenses and are
+**non-commercial / research-only**. These apply on top of the license above — see
+**[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)**. For any use beyond non-commercial
+academic research, you must obtain the appropriate rights from the respective copyright
+holders (including NVIDIA CORPORATION).
 
 ## 📃 Citation
 
