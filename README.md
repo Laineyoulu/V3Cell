@@ -133,6 +133,34 @@ Stage 2 decodes through a **frozen** Stage 1 generator — train (or obtain) a S
 * **Stage 1 output**: `network-snapshot-XXXXXX.pkl`, produced by `r3gan/train.py`.
 * **Stage 2 input**: pass that same `.pkl` as `--r3gan_ckpt` to every Stage 2 script.
 
+### • Pretrained Weights and Data
+
+The pretrained weights and the hESC-derived amniotic-sac organoid time-lapse data are hosted on Zenodo as two records:
+
+| Record | Content | License | DOI |
+|---|---|---|---|
+| **Model weights** | Static virtual 3D cell models (colon / stomach / lung 64×64; amniotic-sac 256×256) and the dynamic virtual 3D cell model | CC BY-NC 4.0 | [10.5281/zenodo.24088077](https://doi.org/10.5281/zenodo.24088077) |
+| **Time-lapse data** | Full-rate sequences (193 frames each), `splits.csv` (train 230 / test 36), and the frames used to train the static model of amniotic-sac organoids | CC BY 4.0 | [10.5281/zenodo.24080700](https://doi.org/10.5281/zenodo.24080700) |
+
+Using the downloads with this code:
+
+* **Static model for the dynamic model**: pass `stage1_amniotic_frames256_snapshot580.pkl` as `--r3gan_ckpt` to the Stage 2 scripts.
+* **Dynamic model**: pass `stage2_motion_checkpoint_003999.pt` as `--checkpoint` (its training configuration is `stage2_motion_config.json`).
+* **Time-lapse data**: the sequences are at the acquired frame rate (one frame every 15 min, 193 frames). The manuscript models use every 8th frame (25 frames):
+
+  ```bash
+  python scripts/subsample_frames.py --src /path/to/sequences --dst /path/to/sequences_8x --step 8
+  ```
+
+  The code expects the class folders to be named `lumen`, `lumen_collapse` and `non_lumen`; the Zenodo archive uses `cavity_formation`, `cavity_collapse` and `non_cavity` (same order, same labels 0 / 1 / 2). Rename them after extraction:
+
+  ```bash
+  cd /path/to/sequences
+  mv cavity_formation lumen && mv cavity_collapse lumen_collapse && mv non_cavity non_lumen
+  ```
+
+  `splits.csv` lists which sequences belong to the training and test sets.
+
 ---
 
 ## 🚀 V3Cell: Quick Usage Guide
